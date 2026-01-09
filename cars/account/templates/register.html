@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Register</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div class = "form_group">
+        <label for="username">Username:</label>
+        {{ user_form.username }}
+        {{ user_form.username.errors }}
+    </div>
+    <div class = "form_group">
+        <label for="password1">Password:</label>
+        {{ user_form.password1 }}
+        {{ user_form.password1.errors }}
+    </div>
+    <div class = "form_group">
+        <label for="password2">Confirm Password:</label>
+        {{ user_form.password2 }}
+        {{ user_form.password2.errors }}
+    </div>
+    <div class = "form_group">
+        <input type="submit" value="Register" class="btn btn-primary">
+    </div>
+</form>
+
+{% endblock %}

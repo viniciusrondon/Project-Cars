@@ -1,0 +1,7 @@
+venv/
+.env
+db.sqlite3
+media/
+openai_api/.env
+__pycache__/
+*.pyc

@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .car-detail-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); /* Soft shadow */
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  /* Responsive layout for larger screens */
+  @media (min-width: 768px) {
+    .car-detail-container {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+    .car-image-wrapper {
+      flex: 1;
+      max-width: 50%;
+    }
+    .car-info-wrapper {
+      flex: 1;
+      padding-left: 20px;
+    }
+  }
+
+  .car-image-wrapper img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .car-info-wrapper h1 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 2.2rem;
+    color: #2c3e50;
+  }
+
+  .car-brand {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-bottom: 25px;
+    font-weight: 500;
+  }
+
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .spec-card {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+  }
+
+  .spec-label {
+    display: block;
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .spec-value {
+    font-size: 1.1rem;
+    color: #212529;
+    font-weight: 600;
+  }
+
+  .price-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .price-value {
+    font-size: 2rem;
+    color: #0096c7;
+    font-weight: 800;
+  }
+
+  .btn-back {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #6c757d;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+  }
+
+  .btn-back:hover {
+    background-color: #5a6268;
+    color: #fff;
+  }
+</style>
+
+<div class="car-detail-container">
+  
+  <div class="car-image-wrapper">
+    {% if object.image %}
+      <img src="{{ object.image.url }}" alt="{{ object.brand }} {{ object.model }}">
+    {% else %}
+      <img src="https://via.placeholder.com/500x350?text=No+Image" alt="Without Imagem">
+    {% endif %}
+  </div>
+
+  <div class="car-info-wrapper">
+    <h1>{{ object.model }}</h1>
+    <div class="car-brand">{{ object.brand }}</div>
+
+    <div class="specs-grid">
+      <div class="spec-card">
+        <span class="spec-label">Factory Year</span>
+        <span class="spec-value">{{ object.factory_year }}</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-label">Model Year</span>
+        <span class="spec-value">{{ object.model_year }}</span>
+      </div>
+      {% if object.plate %}
+      <div class="spec-card">
+        <span class="spec-label">Plate</span>
+        <span class="spec-value">{{ object.plate }}</span>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="price-section">
+      <div>
+        <span class="spec-label" style="margin-bottom: 0;">Price</span>
+        <div class="price-value">R$ {{ object.price }}</div>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="buttons-container">
+        <a href="{% url 'cars_list' %}" class="btn-back">Cars</a>
+        <a href="{% url 'car_update' object.pk %}" class="btn-back">Update</a>
+        <a href="{% url 'car_delete' object.pk %}" class="btn-back">Delete</a>
+      </div>
+      {% endif %}
+    </div>
+    {% if object.bio %}
+    <div class="bio-section">
+      <h2>Bio</h2>
+      <p>{{ object.bio }}</p>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}
